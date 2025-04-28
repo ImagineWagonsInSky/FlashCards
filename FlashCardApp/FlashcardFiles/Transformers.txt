@@ -1,0 +1,29 @@
+{
+  "What is the formula for scaled dot-product attention in Transformers?": "Attention(Q, K, V) = softmax(QK^T / sqrt(d_k)) V, where Q, K, and V are the query, key, and value matrices, and d_k is the dimension of the key vectors.",
+  
+  "Why is the dot product in attention scaled by sqrt(d_k)?": "Scaling by sqrt(d_k) prevents the dot products from growing too large in magnitude, which could push the softmax function into regions with extremely small gradients, making training unstable.",
+  
+  "What are the roles of Query (Q), Key (K), and Value (V) in attention mechanisms?": "The Query represents the vector we are comparing to others, the Key represents the vector we are comparing against, and the Value is the vector we use to compute the output. The attention mechanism computes a weighted sum of the Values, where the weights are determined by the compatibility of the Query with the corresponding Key.",
+  
+  "How is multi-head attention implemented in Transformers?": "Multi-head attention involves running multiple attention mechanisms (heads) in parallel. Each head has its own set of learned linear projections for Q, K, and V. The outputs of all heads are concatenated and projected once more to produce the final output.",
+  
+  "What is the benefit of using multiple attention heads?": "Multiple heads allow the model to attend to information from different representation subspaces at different positions, capturing various aspects of the input.",
+  
+  "What are the key components of a Transformer encoder layer?": "Each encoder layer consists of a multi-head self-attention mechanism, followed by a position-wise fully connected feed-forward network. Layer normalization and residual connections are applied after each of these components.",
+  
+  "What is masked attention in the context of Transformers?": "Masked attention is used in the decoder to prevent positions from attending to subsequent positions. This ensures that the prediction for position i can depend only on the known outputs at positions less than i.",
+  
+  "How is masking implemented in attention mechanisms?": "Masking is implemented by adding a mask matrix to the attention scores before applying the softmax function. The mask contains large negative values (e.g., -∞) at positions that should be masked, effectively setting their attention weights to zero after the softmax.",
+  
+  "What is the purpose of the feed-forward network in Transformer layers?": "The feed-forward network applies two linear transformations with a ReLU activation in between. It allows for complex transformations of the input representations and adds depth to the model.",
+  
+  "How do residual connections and layer normalization contribute to Transformer models?": "Residual connections help in training deep networks by allowing gradients to flow through the network directly. Layer normalization stabilizes the learning process and improves convergence by normalizing the inputs across the features.",
+  
+  "What is the role of positional encoding in Transformers?": "Since Transformers lack recurrence and convolution, positional encodings are added to the input embeddings to provide information about the position of tokens in the sequence.",
+  
+  "How are positional encodings computed in the original Transformer model?": "Positional encodings are computed using sine and cosine functions of different frequencies: PE(pos, 2i) = sin(pos / 10000^(2i/d_model)), PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model)), where pos is the position and i is the dimension.",
+  
+  "Why are linear transformations important in attention mechanisms?": "Linear transformations project the input embeddings into query, key, and value spaces, allowing the model to learn different representations for computing attention scores and aggregating information.",
+  
+  "How does the Transformer architecture facilitate interpretability?": "The attention weights in Transformers can be visualized to understand which parts of the input the model focuses on when making predictions, providing insights into the model's decision-making process."
+}

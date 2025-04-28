@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Study Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: none;
+            outline: none;
+        }
+        .tab.active {
+            background-color: #ddd;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .correct {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .incorrect {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .topic-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #e9f7ef;
+            border-radius: 8px;
+        }
+        .error-message {
+            color: #a94442;
+            background-color: #f2dede;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .success-message {
+            color: #3c763d;
+            background-color: #dff0d8;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flashcard Study Tool</h1>
+    
+    <div class="topic-section">
+        <h2>Select Topic</h2>
+        <select id="topic-select">
+            <option value="">-- Select a topic --</option>
+        </select>
+        <button onclick="loadSelectedTopic()">Load Topic</button>
+        
+        <div style="margin-top: 15px;">
+            <h3>Create New Topic</h3>
+            <input type="text" id="new-topic-input" placeholder="Enter new topic name">
+            <button onclick="createNewTopic()">Create Topic</button>
+        </div>
+        
+        <div id="topic-message" style="display: none;"></div>
+    </div>
+    
+    <div class="tab-container">
+        <button class="tab active" onclick="openTab(event, 'quiz')">Quiz</button>
+        <button class="tab" onclick="openTab(event, 'add')">Add Flashcards</button>
+        <button class="tab" onclick="openTab(event, 'view')">View All</button>
+    </div>
+    
+    <div id="quiz" class="tab-content active">
+        <div class="card">
+            <h2>Quiz Yourself</h2>
+            <div id="current-topic-display">No topic selected</div>
+            <div id="question-container">
+                <p id="current-question">Select a topic and click "New Question" to start</p>
+                <input type="text" id="answer-input" placeholder="Your answer">
+                <button onclick="checkAnswer()">Submit Answer</button>
+                <button onclick="getNewQuestion()">New Question</button>
+            </div>
+            <div id="result" class="result" style="display: none;"></div>
+        </div>
+    </div>
+    
+    <div id="add" class="tab-content">
+        <div class="card">
+            <h2>Add New Flashcards</h2>
+            <div id="add-topic-display">No topic selected</div>
+            <div>
+                <label for="new-question">Question:</label>
+                <textarea id="new-question" rows="3" placeholder="Enter your question"></textarea>
+                
+                <label for="new-answer">Answer:</label>
+                <textarea id="new-answer" rows="3" placeholder="Enter the answer"></textarea>
+                
+                <button onclick="addFlashcard()">Add Flashcard</button>
+                <p id="add-result"></p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="view" class="tab-content">
+        <div class="card">
+            <h2>All Flashcards</h2>
+            <div id="view-topic-display">No topic selected</div>
+            <button onclick="refreshFlashcards()">Refresh List</button>
+            <div id="flashcards-list">
+                <table id="flashcards-table">
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th>Answer</th>
+                        </tr>
+                    </thead>
+                    <tbody id="flashcards-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = "";
+        let currentTopic = "";
+        
+        // Load topics when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTopics();
+        });
+        
+        function loadTopics() {
+            fetch('/get_topics')
+                .then(response => response.json())
+                .then(data => {
+                    const topicSelect = document.getElementById('topic-select');
+                    // Clear existing options except the default
+                    while (topicSelect.options.length > 1) {
+                        topicSelect.remove(1);
+                    }
+                    
+                    // Add topics from the server
+                    data.topics.forEach(topic => {
+                        const option = document.createElement('option');
+                        option.value = topic;
+                        option.textContent = topic;
+                        topicSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error loading topics:', error));
+        }
+        
+        function loadSelectedTopic() {
+            const topicSelect = document.getElementById('topic-select');
+            const selectedTopic = topicSelect.value;
+            
+            if (!selectedTopic) {
+                showTopicMessage('Please select a topic', 'error');
+                return;
+            }
+            
+            currentTopic = selectedTopic;
+            updateTopicDisplays();
+            showTopicMessage(`Topic "${selectedTopic}" loaded successfully`, 'success');
+        }
+        
+        function createNewTopic() {
+            const newTopicInput = document.getElementById('new-topic-input');
+            const newTopic = newTopicInput.value.trim();
+            
+            if (!newTopic) {
+                showTopicMessage('Please enter a topic name', 'error');
+                return;
+            }
+            
+            fetch('/create_topic', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    topic: newTopic
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    showTopicMessage(data.error, 'error');
+                    return;
+                }
+                
+                showTopicMessage(`Topic "${newTopic}" created successfully`, 'success');
+                newTopicInput.value = '';
+                loadTopics();
+                
+                // Set the new topic as current
+                setTimeout(() => {
+                    const topicSelect = document.getElementById('topic-select');
+                    topicSelect.value = newTopic;
+                    currentTopic = newTopic;
+                    updateTopicDisplays();
+                }, 500);
+            })
+            .catch(error => {
+                console.error('Error creating topic:', error);
+                showTopicMessage('Error creating topic', 'error');
+            });
+        }
+        
+        function showTopicMessage(message, type) {
+            const messageElement = document.getElementById('topic-message');
+            messageElement.textContent = message;
+            messageElement.className = type === 'error' ? 'error-message' : 'success-message';
+            messageElement.style.display = 'block';
+            
+            // Hide message after 3 seconds
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, 3000);
+        }
+        
+        function updateTopicDisplays() {
+            const displays = [
+                document.getElementById('current-topic-display'),
+                document.getElementById('add-topic-display'),
+                document.getElementById('view-topic-display')
+            ];
+            
+            displays.forEach(display => {
+                display.textContent = currentTopic ? `Current Topic: ${currentTopic}` : 'No topic selected';
+            });
+        }
+        
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            const tabs = document.getElementsByClassName("tab");
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            
+            if (tabName === "view" && currentTopic) {
+                refreshFlashcards();
+            }
+        }
+        
+        function getNewQuestion() {
+            if (!currentTopic) {
+                document.getElementById('current-question').textContent = "Please select a topic first";
+                return;
+            }
+            
+            fetch('/get_flashcard', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    topic: currentTopic
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('current-question').textContent = data.error;
+                    return;
+                }
+                currentQuestion = data.question;
+                document.getElementById('current-question').textContent = data.question;
+                document.getElementById('answer-input').value = '';
+                document.getElementById('result').style.display = 'none';
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answer-input').value;
+            
+            if (!currentTopic) {
+                alert("Please select a topic first!");
+                return;
+            }
+            
+            if (!currentQuestion) {
+                alert("Please get a question first!");
+                return;
+            }
+            
+            fetch('/check_answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    topic: currentTopic,
+                    question: currentQuestion,
+                    answer: userAnswer
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultElement = document.getElementById('result');
+                resultElement.style.display = 'block';
+                
+                if (data.error) {
+                    resultElement.textContent = data.error;
+                    resultElement.className = 'result incorrect';
+                    return;
+                }
+                
+                if (data.is_correct) {
+                    resultElement.innerHTML = `<p>Correct!</p>`;
+                    resultElement.className = 'result correct';
+                } else {
+                    resultElement.innerHTML = `
+                        <p>Similarity: ${data.similarity}%</p>
+                        <p>The correct answer is: ${data.correct_answer}</p>
+                    `;
+                    resultElement.className = 'result incorrect';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        
+        function addFlashcard() {
+            const question = document.getElementById('new-question').value;
+            const answer = document.getElementById('new-answer').value;
+            
+            if (!currentTopic) {
+                document.getElementById('add-result').textContent = "Please select a topic first!";
+                return;
+            }
+            
+            if (!question || !answer) {
+                document.getElementById('add-result').textContent = "Question and answer cannot be empty!";
+                return;
+            }
+            
+            fetch('/add_flashcard', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    topic: currentTopic,
+                    question: question,
+                    answer: answer
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('add-result').textContent = data.error;
+                    return;
+                }
+                
+                document.getElementById('new-question').value = '';
+                document.getElementById('new-answer').value = '';
+                document.getElementById('add-result').textContent = "Flashcard added successfully!";
+                setTimeout(() => {
+                    document.getElementById('add-result').textContent = "";
+                }, 3000);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        
+        function refreshFlashcards() {
+            if (!currentTopic) {
+                return;
+            }
+            
+            fetch('/get_all_flashcards', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    topic: currentTopic
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('flashcards-tbody');
+                tbody.innerHTML = '';
+                
+                if (data.error) {
+                    return;
+                }
+                
+                for (const question in data) {
+                    const row = document.createElement('tr');
+                    
+                    const questionCell = document.createElement('td');
+                    questionCell.textContent = question;
+                    row.appendChild(questionCell);
+                    
+                    const answerCell = document.createElement('td');
+                    answerCell.textContent = data[question];
+                    row.appendChild(answerCell);
+                    
+                    tbody.appendChild(row);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
+        

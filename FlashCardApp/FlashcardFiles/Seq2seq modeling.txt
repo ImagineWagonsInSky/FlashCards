@@ -1,0 +1,25 @@
+{
+  "How does language modeling relate to sequence-to-sequence modeling?": "Language modeling involves predicting the next word in a sequence, while sequence-to-sequence modeling extends this by mapping an input sequence to an output sequence, such as in machine translation.",
+  
+  "What is the vanilla encoder-decoder architecture in seq2seq models?": "It consists of an encoder that processes the input sequence into a fixed-length context vector and a decoder that generates the output sequence from this context vector.",
+  
+  "What are the weaknesses of the vanilla encoder-decoder architecture?": "The fixed-length context vector can be a bottleneck, especially for long input sequences, leading to information loss and degraded performance.",
+  
+  "What is the attention mechanism in seq2seq models?": "Attention allows the decoder to focus on different parts of the input sequence at each decoding step, computing a weighted sum of encoder hidden states based on relevance scores.",
+  
+  "Why is attention important in seq2seq models?": "It mitigates the fixed-length context vector limitation by providing the decoder with access to all encoder hidden states, improving performance on longer sequences.",
+  
+  "What are scoring functions in attention mechanisms?": "Scoring functions compute the relevance between the current decoder state and each encoder state to determine attention weights; common types include dot product and general scoring.",
+  
+  "How are seq2seq models trained?": "They are typically trained using teacher forcing, where the model is fed the actual previous output token during training to predict the next token.",
+  
+  "What is greedy decoding in seq2seq models?": "Greedy decoding selects the most probable token at each step to build the output sequence, which is fast but may not yield the most optimal sequence.",
+  
+  "What is beam search decoding in seq2seq models?": "Beam search keeps track of the top 'k' most probable sequences at each step, exploring multiple paths to find a more optimal output sequence.",
+  
+  "What is hallucination in seq2seq models?": "Hallucination refers to the model generating outputs that are fluent but not grounded in the input, often producing incorrect or nonsensical information.",
+  
+  "How does beam search help mitigate hallucination?": "By exploring multiple candidate sequences, beam search can select outputs that are more consistent with the input, reducing the chance of hallucination.",
+  
+  "What is the trade-off between greedy and beam search decoding?": "Greedy decoding is faster but may miss better sequences, while beam search is more computationally intensive but can produce higher-quality outputs."
+}

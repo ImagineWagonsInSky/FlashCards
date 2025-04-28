@@ -1,0 +1,35 @@
+{
+  "What is an N-gram language model?": "A model that estimates the probability of a word based on the previous N-1 words.",
+  
+  "How do you estimate probabilities in an N-gram language model?": "Using Maximum Likelihood Estimation (MLE): count of the N-gram divided by the count of the (N-1)-gram prefix.",
+  
+  "How do you evaluate a language model?": "By computing perplexity on a held-out test set; lower perplexity indicates a better model.",
+  
+  "What are the limitations of N-gram models?": "They suffer from data sparsity, limited context size, and poor generalization to unseen N-grams.",
+  
+  "How are language models used to estimate probabilities?": "They provide probabilities for the next word given the context, useful for tasks like speech recognition, machine translation, and text generation.",
+  
+  "How are language models used to generate language?": "By sampling successive words based on the predicted probability distribution until a stopping condition is met (e.g., end-of-sentence token).",
+  
+  "What is smoothing in N-gram models?": "A technique to adjust MLE estimates to assign some probability mass to unseen N-grams, preventing zero probabilities.",
+  
+  "Why is smoothing necessary in count-based language models?": "Because without smoothing, unseen events would have zero probability, making the model brittle and unable to generalize.",
+  
+  "What is a neural language model?": "A language model that uses neural networks to predict the next word given the previous words, learning distributed representations.",
+  
+  "How is neural language modeling a reduction to classification?": "It treats predicting the next word as a classification problem over the vocabulary given the context as input features.",
+  
+  "How are neural LMs related to smoothing in N-gram models?": "Neural models inherently perform a kind of smoothing by sharing statistical strength across similar contexts via learned embeddings.",
+  
+  "How are probabilities estimated in neural language models?": "By applying a softmax over the output logits of the neural network to produce a probability distribution over the vocabulary.",
+  
+  "What are common methods for evaluating language models?": "Perplexity is the standard metric, measuring how well the model predicts a sample; lower perplexity indicates better performance.",
+  
+  "What is greedy decoding?": "At each step, selecting the word with the highest probability as the next word without randomness.",
+  
+  "What is sampling with temperature?": "Sampling words from the softmax distribution scaled by a temperature parameter; higher temperatures produce more randomness, lower ones more certainty.",
+  
+  "What is top-k sampling?": "At each step, sampling from the top-k most probable words, limiting the sampling space to avoid unlikely words.",
+  
+  "What is nucleus (top-p) sampling?": "Sampling from the smallest set of words whose cumulative probability exceeds a threshold p, dynamically adjusting the candidate set size."
+}

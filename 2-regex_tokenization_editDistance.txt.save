@@ -1,0 +1,15 @@
+{
+    "What is ELIZA, and how does it relate to natural language processing?": "ELIZA was an early chatbot that used pattern matching to simulate a conversation, showing how simple text transformations can create the illusion of understanding.",
+    "What is text normalization?": "The process of converting text into a standard format, including tokenization, lemmatization, and sentence segmentation.",
+    "What is a regular expression?": "A pattern-matching notation used to define and search for specific sequences of text.",
+    "How are regular expressions useful in NLP?": "They help extract patterns like dates, prices, or specific word forms from large text corpora.",
+    "What does the regex /woodchuck/ match?": "Any occurrence of the word \"woodchuck\" in a text.",
+    "What does /[A-Z]/ match?": "Any uppercase letter.",
+    "How do you specify optional characters in regex?": "Using the question mark ?, e.g., /colou?r/ matches both \"color\" and \"colour.\"",
+    "What does the * (Kleene star) do in regex?": "Matches zero or more occurrences of the preceding character.",
+    "What does the + (Kleene plus) do?": "Matches one or more occurrences of the preceding character.",
+    "How can you specify an exact number of occurrences?": "Using {n}, e.g., /a{3}/ matches \"aaa.\"",
+    "What does ^ mean in regex?": "Matches the start of a line.",
+    "What does $ mean in regex?": "Matches the end of a line.",
+    "What does \\b signify?": "A word boundary, ensuring a match occurs at the start or end of a word."
+}

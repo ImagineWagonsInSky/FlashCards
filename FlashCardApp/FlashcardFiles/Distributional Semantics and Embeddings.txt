@@ -1,0 +1,20 @@
+  {
+    "What is the core assumption of distributional semantics?": "That words appearing in similar contexts tend to have similar meanings—summarized by Firth's principle: 'You shall know a word by the company it keeps.'",
+    "What are the strengths of distributional semantics?": "It captures semantic similarity and analogy relationships, is data-driven, and doesn't require manual labeling.",
+    "What are the limitations of distributional semantics?": "It struggles with polysemy (multiple meanings), lacks interpretability, and doesn't capture deeper world knowledge or syntax.",
+    "What is a count-based method in word embeddings?": "It constructs a word-context co-occurrence matrix from a corpus and applies weighting schemes like PMI (Pointwise Mutual Information).",
+    "How is SVD used in count-based methods?": "Singular Value Decomposition (SVD) reduces the high-dimensional co-occurrence matrix to a lower-dimensional space, capturing latent semantic structures.",
+    "What is Latent Semantic Analysis (LSA)?": "An application of SVD to word-document matrices to uncover hidden semantic relationships.",
+    "What are the limitations of count-based methods?": "They produce sparse vectors, are computationally intensive for large corpora, and may not capture complex semantic relationships effectively.",
+    "What are sparse embeddings?": "High-dimensional vectors with many zero entries, typically resulting from count-based methods.",
+    "What are dense embeddings?": "Low-dimensional vectors with continuous values, usually learned via neural network models.",
+    "How do sparse and dense embeddings compare?": "Sparse embeddings are interpretable but less efficient, while dense embeddings are compact, capture more nuanced relationships, and are more efficient for downstream tasks.",
+    "What is the Skip-Gram model in Word2Vec?": "A neural network model that predicts surrounding context words given a target word, learning word embeddings in the process.",
+    "How does negative sampling work in Skip-Gram?": "For each target-context pair, the model is trained to distinguish real context words from randomly sampled 'negative' words, simplifying the training process.",
+    "Why is negative sampling important?": "It reduces computational complexity by avoiding the need to compute probabilities over the entire vocabulary, enabling efficient training on large datasets.",
+    "How does negative sampling exemplify self-supervision?": "It uses the structure of the data itself to generate training signals without requiring manual annotation, a hallmark of self-supervised learning.",
+    "What is the main advantage of neural embeddings over count-based methods?": "Neural embeddings capture deeper semantic relationships and are more efficient for downstream NLP tasks.",
+    "What role does SVD play in count-based methods?": "It reduces dimensionality, uncovering latent semantic structures in the data.",
+    "How does the Skip-Gram model learn word embeddings?": "By predicting context words for a given target word and adjusting embeddings to maximize prediction accuracy.",
+    "Why are dense embeddings preferred in modern NLP applications?": "They are computationally efficient and capture complex semantic relationships better than sparse embeddings."
+  }

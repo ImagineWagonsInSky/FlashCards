@@ -1,0 +1,20 @@
+{
+    "What is Naïve Bayes classification?": "It's a probabilistic classifier based on Bayes' Rule, assuming feature independence given the class.",
+    "How is parameter estimation done for Naïve Bayes?": "We estimate class priors P(c) and likelihoods P(x_i|c) from training data using counts, often with smoothing (e.g., Laplace smoothing).",
+    "How does Naïve Bayes perform inference?": "It predits the class c that maximizes P(c) MULT_i P(x_i|c).",
+    "What are the strengths of Naïve Bayes?": "Very simple and fast to train, works well with small datasets and robust to irrelevant features.",
+    "What are the limitations of Naïve Bayes?": "Strong independence assumption is often unrealistic and struggles when features are highly correlated.",
+    "What is logistic regression in text classification?": "A discriminative model that predicts the probability of a class directly using a sigmoid (binary) or softmax (multiclass) function over a weighted sum of input features.",
+    "How is parameter estimation done for logistic regression?": "We optimize the weights and bias by minimizing cross-entropy loss, usually with gradient descent.",
+    "How does logistic regression perform inference?": "It computes class probabilities using the learned weights and chooses the class with the highest probability.",
+    "What are the strengths of logistic regression?": "Models feature interactions implicitly, no independence assumption and probabilistic outputs.",
+    "What are the limitations of logistic regression?": "Requires more data than Naïve Bayes to perform well and linear decision boundary unless features are manually engineered.",
+    "How are neural networks related to logistic regression?": "A single-layer (no hidden layer) neural network is equivalent to logistic regression. Neural networks generalize logistic regression by adding hidden layers (nonlinearities).",
+    "What is a bag-of-embeddings model?": "It represents text by averaging (or summing) word embeddings, ignoring word order, and feeds this represenation into a classifier (like a feedforward neural network).",
+    "What is a vanilla RNN?": "A neural network where hidden state is updated recursively over a sequence: h_t = tanh(W_{hh}h_{t-1} + W{xh}x_t).",
+    "What are the challenges with vanilla RNNs?": "Vanishing and exploding gradients during training, difficulty learning long-term dependencies.",
+    "What are LSTMs and GRUs? (high-level)": "LSTMs (Long Short-Term Memory Networks) and GRUs (Gated Recurrent Units) are RNN variants designed to better capture long-term dependencies using gating mechanisms to control information flow. LSTMs have input, output, and forget gates; GRUs have reset and update gates (simpler than LSTMs).",
+    "How does expressivity differ between models?": "In Naïve Bayes it is very limited (independence assumption). In Logistic Regression linear decision boundary. In Neural Networks it is a nonlinear, hierarchical feature learning -> much more expressive.",
+    "What is multi-layer (deep) RNN?": "An RNN with several layers stacked on top of each other, allowing the network to learn higher-level temporal feautures at each layer.",
+    "What is a bidirectional RNN?": "An RNN that processes input sequences both forward and backward to capture information from both past and future contexts at every time step."
+}
