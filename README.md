@@ -31,7 +31,7 @@ python3 app.py
 You can go to the specified URL in your browser to use!
 
 > **Note:**
-You can either add Flashcards from the UI or directly make your own txt and add it to `templates/`.
+You can either add Flashcards from the UI or directly make your own txt and add it to `FlashCardFiles/`.
 
 ## ⚠️ License
 
