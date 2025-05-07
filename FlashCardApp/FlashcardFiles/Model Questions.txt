@@ -1,0 +1,12 @@
+{
+  "What is the mitochondria?": "The powerhouse of the cell—it generates energy in the form of ATP.",
+  "What is the nucleus of a cell?": "The control center of the cell—it contains DNA.",
+  "What is photosynthesis?": "The process by which plants make food using sunlight, carbon dioxide, and water.",
+  "What is gravity?": "A force that pulls objects toward one another, especially toward the center of the Earth.",
+  "What is the boiling point of water?": "100 degrees Celsius (212 degrees Fahrenheit) at sea level.",
+  "What is an atom?": "The basic unit of matter—made of protons, neutrons, and electrons.",
+  "What is a verb?": "A word that describes an action or a state of being.",
+  "What is a noun?": "A word that names a person, place, thing, or idea.",
+  "What is a triangle?": "A shape with three sides and three angles.",
+  "What is the capital of France?": "Paris."
+}
